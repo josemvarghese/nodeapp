@@ -1,7 +1,7 @@
 var app = angular.module('testapp', ['ngRoute','testctrl','testservice']);
 
-app.config(['$routeProvider',
-  function($routeProvider) {
+app.config(['$routeProvider','$locationProvider',
+  function($routeProvider,$locationProvider) {
     $routeProvider.
       when('/two', {
         templateUrl: '../templates/two.html',
@@ -21,4 +21,6 @@ app.config(['$routeProvider',
       otherwise({
         redirectTo: '/index'
       });
+    $locationProvider.html5Mode(true);
+
   }]);
