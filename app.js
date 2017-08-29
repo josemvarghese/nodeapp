@@ -14,6 +14,7 @@ db.once('open', function() {
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var events = require('./routes/events');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', index);
 // app.use('/users', users);
+app.use('/api',events);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/templates/index.html'));
 });

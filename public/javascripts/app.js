@@ -1,4 +1,4 @@
-var app = angular.module('testapp', ['ngRoute','testctrl','testservice']);
+var app = angular.module('testapp', ['ngRoute','testctrl','testservice','Credentails']);
 
 app.config(['$routeProvider','$locationProvider',
   function($routeProvider,$locationProvider) {
@@ -16,7 +16,10 @@ app.config(['$routeProvider','$locationProvider',
       when('/three', {
         templateUrl: '../templates/three.html',
         controller: 'twocntrl'
-
+      }).
+      when('/addevent', {
+        templateUrl: '../templates/addevent.html',
+        controller: 'eventController'
       }).
       otherwise({
         redirectTo: '/index'
