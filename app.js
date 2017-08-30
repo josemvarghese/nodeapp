@@ -1,23 +1,26 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 var db = require('./config/mongodb');
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected
   console.log("we're connected");
 });
+require('./config/passport')(passport);
 
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var event = require('./routes/events');
 
 var app = express();
 
+var index = require('./routes/index');
+var eventInfo = require('./routes/events');
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
@@ -28,11 +31,22 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: 'qcE7Htpwdfg2apdMbJ4',
+         saveUninitialized: true,
+         resave: true}));
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+
 
 // app.use('/', index);
 // app.use('/users', users);
-app.use('/api',event);
+require('./routes/users')(app,passport);
+app.use('/api',eventInfo);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/templates/index.html'));
 });

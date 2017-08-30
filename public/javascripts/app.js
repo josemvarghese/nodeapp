@@ -1,6 +1,6 @@
-var app = angular.module('testapp', ['ngRoute','testctrl','testservice','Credentails']);
+var nodeapp = angular.module('testapp', ['ngRoute','testctrl','testservice','Credentails']);
 
-app.config(['$routeProvider','$locationProvider',
+nodeapp.config(['$routeProvider','$locationProvider',
   function($routeProvider,$locationProvider) {
     $routeProvider.
       when('/two', {
@@ -10,7 +10,7 @@ app.config(['$routeProvider','$locationProvider',
       }).
       when('/index', {
         templateUrl: '../templates/home.html',
-        controller: 'home'
+        controller: 'indexController'
 
       }).
       when('/three', {
