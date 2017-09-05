@@ -1,0 +1,78 @@
+<html>
+<head>
+	<title>asdfasdf</title>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<meta name="google-signin-client_id" content="651052353291-njv8tkkg19m7rnnhocdt7avjphb5ccjf.apps.googleusercontent.com">
+	<script type="text/javascript" src="//platform.linkedin.com/in.js">
+    api_key: 811iv469cvhvh1
+    onLoad: onLinkedInLoad
+</script>
+
+<script type="text/javascript">
+    
+    // Setup an event listener to make an API call once auth is complete
+    function onLinkedInLoad() {
+        IN.Event.on(IN, "auth", getProfileData);
+    }
+
+    // Handle the successful return from the API call
+    function onSuccess(data) {
+        console.log(data);
+    }
+
+    // Handle an error response from the API call
+    function onError(error) {
+        console.log(error);
+    }
+
+    // Use the API call wrapper to request the member's basic profile data
+    function getProfileData() {
+        IN.API.Raw("/people/~").result(onSuccess).error(onError);
+    }
+
+</script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log(googleUser);
+  console.log(profile.__proto__);
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  console.log('BY: ' + profile.BY()); // This is null if the 'email' scope is not present.
+  console.log('CY: ' + profile.CY()); // This is null if the 'email' scope is not present.
+  console.log('Hh: ' + profile.Hh()); // This is null if the 'email' scope is not present.
+  console.log('Uea: ' + profile.Uea()); // This is null if the 'email' scope is not present.
+  console.log('a4: ' + profile.a4()); // This is null if the 'email' scope is not present.
+  console.log('getFamilyName: ' + profile.getFamilyName()); // This is null if the 'email' scope is not present.
+  console.log('getGivenName: ' + profile.getGivenName()); // This is null if the 'email' scope is not present.
+}
+
+</script>
+<a href="#" onclick="signOut();">Sign out</a>
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script>
+
+
+
+
+
+
+<script type="in/Login"></script>
+
+
+<div align="center" class="g-signin2" data-onsuccess="onSignIn"></div>
+
+</body>
+</html>
