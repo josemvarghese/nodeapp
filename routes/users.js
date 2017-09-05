@@ -10,16 +10,24 @@ module.exports = function(app,passport) {
 	// app.get('/two', isLoggedIn, function(req, res){
 	// 	// res.render('profile.ejs', { user: req.user });
 	// });
-	app.post('/api/signup', passport.authenticate('local-signup', {
-		successRedirect: '/successsignup',
-		failureRedirect: '/failuresignup',
-		failureFlash: true
-	}));
+	app.post('/api/signup',function(req, res, next) {
+	  passport.authenticate('local-signup', function(err, user, info) {
+	    if (err) {
+	      return next(err); // will generate a 500 error
+	    }
+	    // Generate a JSON response reflecting signup
+	    if (! user) {
+	      return res.send({ success : false, message : 'signupfailed' });
+	    }
+	    return res.send({ success : true, message : 'signup succeeded' });
+	  })(req, res, next);
+	});
+	// 
 	app.get('/successsignup', function(req, res) {
-	    res.json({ result: 1 });
+ 			 res.render('index', { title: 'Express' });
 	});
 	app.get('/failuresignup', function(req, res) {
-	    res.json({ result: 0,message:"account already exist" });
+  			res.render('index', { title: 'Express' });
 	});
 	app.get('/api/logout', function(req, res){
 		req.logout();
