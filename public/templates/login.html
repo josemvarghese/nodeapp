@@ -1,8 +1,7 @@
-<div class="col-md-12" ng-controller="indexController">
-	<div class="col-md-2 col-md-offset-10 "><button class="btn btn-success "><a href="/login">Sign in</a></button></div>
-	<h1 class="col-md-6 col-md-offset-3 well" align="center">Sign up</h1>
+<div class="col-md-12" ng-controller="LoginController">
+	<h1 class="col-md-6 col-md-offset-3 well" align="center">Sign in</h1>
 	<div class="col-md-12">
-			<form class="col-md-6 col-md-offset-3" ng-submit="signupform.$valid?signUp():''"    name="signupform" >
+			<form class="col-md-6 col-md-offset-3" ng-submit="signinform.$valid?signIn():''"    name="signinform" >
 					<div class="form-group">
 					    <label for="name">Email:</label>
 					    <input type="email" class="form-control" id="name" Placeholder="Email" ng-model="email">
@@ -14,7 +13,7 @@
 					<button type="submit" class="btn btn-success">Submit</button>
 			</form>
 
-	<div class="col-md-6 col-md-offset-3" style="margin-top:50px;">
+	<!-- <div class="col-md-6 col-md-offset-3" style="margin-top:50px;">
 		Google
 	</div>
 	<div class="col-md-6 col-md-offset-3" style="margin-top:50px;">
@@ -22,7 +21,7 @@
 	</div>
 	<div class="col-md-6 col-md-offset-3" style="margin-top:50px;">
 		Linkedin
-	</div>
+	</div> -->
 	
 
 </div>

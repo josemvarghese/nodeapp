@@ -22,6 +22,18 @@ module.exports = function(app,passport) {
 	    return res.send({ success : true, message : 'signup succeeded' });
 	  })(req, res, next);
 	});
+	app.post('/api/signin',function(req, res, next) {
+	  passport.authenticate('local-login', function(err, user, info) {
+	    if (err) {
+	      return next(err); // will generate a 500 error
+	    }
+	    // Generate a JSON response reflecting signup
+	    if (! user) {
+	      return res.send({ success : false, message : 'signinfailed' });
+	    }
+	    return res.send({ success : true, message : 'signin succeeded' });
+	  })(req, res, next);
+	});
 	// 
 	app.get('/successsignup', function(req, res) {
  			 res.render('index', { title: 'Express' });
