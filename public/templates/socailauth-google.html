@@ -1,18 +1,22 @@
 <html>
 <head>
-	<title>asdfasdf</title>
-	<script src="https://apis.google.com/js/platform.js" async defer></script>
-	<meta name="google-signin-client_id" content="651052353291-njv8tkkg19m7rnnhocdt7avjphb5ccjf.apps.googleusercontent.com">
-	<script type="text/javascript" src="//platform.linkedin.com/in.js">
+  <title>Social Auth</title>
+  <script type="text/javascript" src="//platform.linkedin.com/in.js">
     api_key: 811iv469cvhvh1
     onLoad: onLinkedInLoad
 </script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="651052353291-njv8tkkg19m7rnnhocdt7avjphb5ccjf.apps.googleusercontent.com">
+  
 
 <script type="text/javascript">
     
     // Setup an event listener to make an API call once auth is complete
     function onLinkedInLoad() {
+      console.log("sdfsdfsd")
         IN.Event.on(IN, "auth", getProfileData);
+        // IN.API.Profile("me").result(ShowProfileData);
+
     }
 
     // Handle the successful return from the API call
@@ -27,14 +31,118 @@
 
     // Use the API call wrapper to request the member's basic profile data
     function getProfileData() {
-        IN.API.Raw("/people/~").result(onSuccess).error(onError);
+        // IN.API.Raw("/people/~").result(onSuccess).error(onError);
+        IN.API.Raw("/people/~:(id,firstName,lastName,emailAddress,pictureUrl,phone-numbers)?format=json").result(onSuccess).error(onError);
+        IN.API.Profile("me").result(ShowProfileData);
+    }
+    function ShowProfileData(profiles) {
+      console.log(profiles);
+        // var member = profiles.values[0];
+        // var id=member.id;
+        // var firstName=member.firstName; 
+        // var lastName=member.lastName; 
+        // var photo=member.pictureUrl; 
+        // var headline=member.headline; 
+
+        //use information captured above
     }
 
+</script>
+<!-- facebook -->
+<script>
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else {
+      // The person is not logged into your app or we are unable to tell.
+      // document.getElementById('status').innerHTML = 'Please log ' +
+      //   'into this app.';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '147511205844128',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.8' // use graph api version 2.8
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus().  This function gets the state of the
+  // person visiting this page and can return one of three states to
+  // the callback you provide.  They can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not.
+  //
+  // These three cases are handled in the callback function.
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+  FB.login(function(response) {
+          if (response.session && response.perms) {
+            console.log(response.perms);
+          }
+        }, {perms:'user_address, user_mobile_phone'});
+
+  };
+
+  // Load the SDK asynchronously
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.10&appId=147511205844128";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me?fields=id,name,email,picture{height,width,url}', function(response) {
+      console.log('Successful login for: ' + response.name);
+      console.log( response);
+            console.log( response.hasOwnProperty());
+
+      // document.getElementById('status').innerHTML =
+      //   'Thanks for logging in, ' + response.name + '!';
+    });
+    // FB.api('/115176345887895/permissions',
+    // function (response) {
+    //   if (response && !response.error) {
+    //          console.log( response.data[0]);
+    //       }
+    //     }
+    // );
+  }
 </script>
 </head>
 
 <body>
-
+<!-- google -->
 <script type="text/javascript">
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
@@ -54,7 +162,36 @@ function onSignIn(googleUser) {
 }
 
 </script>
-<a href="#" onclick="signOut();">Sign out</a>
+
+
+
+
+
+<div  align="center">
+
+<!-- linkedin -->
+<script type="in/Login"></script>
+</div>
+<!-- fb -->
+<div  align="center">
+<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button> -->
+<br/>
+<br/>
+<br/>
+<!-- <div id="status">
+</div> -->
+<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true"></div>
+<br/>
+<br/>
+<br/>
+<div id="fb-root"></div>
+</div>
+<br/>
+<br/>
+<br/>
+<!-- google -->
+<div  align="center"><a href="#" onclick="signOut();">Sign out</a></div>
 <script>
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
@@ -63,15 +200,9 @@ function onSignIn(googleUser) {
     });
   }
 </script>
-
-
-
-
-
-
-<script type="in/Login"></script>
-
-
+<br/>
+<br/>
+<br/>
 <div align="center" class="g-signin2" data-onsuccess="onSignIn"></div>
 
 </body>
