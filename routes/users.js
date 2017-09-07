@@ -1,3 +1,5 @@
+// var isLoggedIn = require('../utils/isauthenticated');
+var eventModel = require('../model/event');
 
 module.exports = function(app,passport) {
 	app.post('/api/signup',function(req, res, next) {
@@ -24,27 +26,44 @@ module.exports = function(app,passport) {
 	    return res.send({ success : true, message : 'signin succeeded' });
 	  })(req, res, next);
 	});
-	// 
-	app.get('/successsignup', function(req, res) {
- 			 res.render('index', { title: 'Express' });
-	});
-	app.get('/failuresignup', function(req, res) {
-  			res.render('index', { title: 'Express' });
-	});
-	app.get('/api/logout', function(req, res){
+
+	app.get('/api/logout',isLoggedIn, function(req, res){
 		req.logout();
 		res.redirect('/');
 	})
 
+	app.get('/api/events',isLoggedIn,function(req,res,next) {
+            eventModel.find({}, function (err, data) {
+                res.json(data);
+            });
+        });
+	app.post('/api/addevent',isLoggedIn, function(req, res, next) {
+	    var newevent = new eventModel({
+	        name : req.body.eventName,
+	        description : req.body.eventDesc,
+	        createdBy : req.body.createdBy
+	    })
+	    newevent.save(function(err, data){
+	        if(err){ return next(err) }
+	        res.json(201, data)
+	    })
+	});
+	app.get('/api/events/:id',isLoggedIn,function(req,res,next) {
+		eventModel.findOne({_id:req.params.id}, function (err, data) {
+		    res.json(data);
+		});
+	});
+
 }
 
 function isLoggedIn(req, res, next) {
-	if(req.isAuthenticated()){
+
+	console.log(req.user)
+	// if(req.user){
+	// 	console.log(req.user)
 		return next();
-	}
-
-	res.redirect('/index');
+	// }
+	// else{
+	// 	res.redirect('/login');
+	// }
 }
-
-
-// module.exports = userRoutes;

@@ -41,11 +41,11 @@ module.exports = function(app){
                 })
         });
 
-        app.get('/api/events',isLoggedIn,function(req,res,next) {
-            eventModel.find({}, function (err, data) {
-                res.json(data);
-            });
-        });
+        // app.get('/api/events',isLoggedIn,function(req,res,next) {
+        //     eventModel.find({}, function (err, data) {
+        //         res.json(data);
+        //     });
+        // });
         app.get('/api/events/:id',isLoggedIn,function(req,res,next) {
             eventModel.findOne({_id:req.params.id}, function (err, data) {
                 res.json(data);
