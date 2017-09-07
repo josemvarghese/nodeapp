@@ -20,7 +20,7 @@ require('./config/passport')(passport);
 var app = express();
 
 var index = require('./routes/index');
-var eventInfo = require('./routes/events');
+// var eventInfo = require('./routes/events');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -46,7 +46,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', index);
 // app.use('/users', users);
 require('./routes/users')(app,passport);
-app.use('/api',eventInfo);
+require('./routes/events')(app);
+// app.use('/api',eventInfo);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/templates/index.html'));
 });

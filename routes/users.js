@@ -1,15 +1,5 @@
 
 module.exports = function(app,passport) {
-	// console.log(app);
-	// console.log(passport);
-	app.post('/api/login', passport.authenticate('local-login', {
-		successRedirect: '/profile',
-		failureRedirect: '/login',
-		failureFlash: true
-	}));
-	// app.get('/two', isLoggedIn, function(req, res){
-	// 	// res.render('profile.ejs', { user: req.user });
-	// });
 	app.post('/api/signup',function(req, res, next) {
 	  passport.authenticate('local-signup', function(err, user, info) {
 	    if (err) {

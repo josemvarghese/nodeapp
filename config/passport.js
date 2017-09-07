@@ -28,7 +28,8 @@ var passPortConfig = function  (passport) {
 				} else {
 					var newUser = new User();
 					newUser.local.username = email;
-					newUser.local.password = password;
+					newUser.local.password = newUser.generateHash(password);
+;
 
 					newUser.save(function(err){
 						if(err)
@@ -54,7 +55,7 @@ var passPortConfig = function  (passport) {
 				if(!user)
 					// 'No User found
 					return done(null, false);
-				if(user.local.password != password){
+				if(!user.validPassword(password)){
 					// inavalid password
 					return done(null, false);
 				}
