@@ -27,6 +27,7 @@ app.controller('eventController',['$scope','$http','UserService','movie','NodeAp
 		      }
 		    }).then(function success(response) {
 		    	console.log(response);
+
 		      // $scope.data = response.data;
 		      // if ($scope.data.result == 1) {
 		      //   //console.log("send mail");
@@ -68,28 +69,11 @@ app.controller('indexController',['$scope','$http','UserService','movie','NodeAp
 		        password: $scope.password
 		      }
 		    }).then(function success(response) {
+		    	console.log(response)
+		    	if(response.data.result==1){
+		    		window.location="/login";
+		    	}
 
-		      // $scope.data = response.data;
-		      // if ($scope.data.result == 1) {
-		      //   //console.log("send mail");
-		      //   $scope.orgName = $scope.orgInfo.company_name;
-		      //   $scope.count = $scope.delegateCount;
-		      //   $scope.delegateCount='';
-		      //   $scope.orgInfo='';
-		      //   $scope.changeEvent('');
-		      //   $scope.submitted=false;
-		      //   $scope.includeAdspace=false;
-		      //   // $scope.captchaInvalid = true;
-		      //   $("#invite-popup").modal('show');
-		      //   $('#loading').hide();
-		      //   $('#container').fadeIn();
-		      // } else if ($scope.data.result == 0) {
-		      //   //console.log("error");
-		      //   $scope.errormsg = true;
-		      //   $scope.showerror = response.data.message;
-		      //   $('#loading').hide();
-		      //   $('#container').fadeIn();
-		      // }
 		    });
 
 
@@ -98,44 +82,36 @@ app.controller('indexController',['$scope','$http','UserService','movie','NodeAp
 
 }]);
 app.controller('LoginController',['$scope','$http','UserService','movie','NodeAppBaseUrl',function($scope,$http,UserService,movie,NodeAppBaseUrl){
+	
+	$scope.signIn = function() {
+		$http({
+	      method: 'POST',
+	      url: NodeAppBaseUrl.url + '/api/signin/',
+	      data: {
+	        email: $scope.email,
+	        password: $scope.password
+	      }
+	    }).then(function success(response) {
+	    	console.log(response)
+	    	if(response.data.result==1){
+	    		window.location="/events";
+	    	}
+	    });
+	};
 
-		$scope.signIn = function() {
-			event.preventDefault();
-			console.log("succ");
-			$http({
-		      method: 'POST',
-		      url: NodeAppBaseUrl.url + '/api/signin/',
-		      data: {
-		        email: $scope.email,
-		        password: $scope.password
-		      }
-		    }).then(function success(response) {
-
-		      // $scope.data = response.data;
-		      // if ($scope.data.result == 1) {
-		      //   //console.log("send mail");
-		      //   $scope.orgName = $scope.orgInfo.company_name;
-		      //   $scope.count = $scope.delegateCount;
-		      //   $scope.delegateCount='';
-		      //   $scope.orgInfo='';
-		      //   $scope.changeEvent('');
-		      //   $scope.submitted=false;
-		      //   $scope.includeAdspace=false;
-		      //   // $scope.captchaInvalid = true;
-		      //   $("#invite-popup").modal('show');
-		      //   $('#loading').hide();
-		      //   $('#container').fadeIn();
-		      // } else if ($scope.data.result == 0) {
-		      //   //console.log("error");
-		      //   $scope.errormsg = true;
-		      //   $scope.showerror = response.data.message;
-		      //   $('#loading').hide();
-		      //   $('#container').fadeIn();
-		      // }
-		    });
-
-
-		};
-
+}]);
+app.controller('ListController',['$scope','$http','UserService','GetDataService','NodeAppBaseUrl',function($scope,$http,UserService,GetDataService,NodeAppBaseUrl){
+	
+	$scope.getEvents = function() {
+		GetDataService.getEvents().then(function(res) {
+			console.log(res);
+	      if (res.result == 1) {
+	        // $scope.userOffset = res.uo;
+	        // $scope.emailprf = res.preferences;
+	        // $scope.resetsetting();
+	      }
+	    });
+	};
+	$scope.getEvents();
 
 }]);

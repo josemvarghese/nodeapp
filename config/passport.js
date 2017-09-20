@@ -4,6 +4,7 @@ var User  = require('../model/user');
 var passPortConfig = function  (passport) {
 
 	passport.serializeUser(function(user, done){
+		console.log("userdgdfgdf");
 		console.log(user);
 		done(null, user.id);
 	});
@@ -51,11 +52,15 @@ var passPortConfig = function  (passport) {
 	function(req, email, password, done){
 		process.nextTick(function(){
 			User.findOne({ 'local.username': email}, function(err, user){
-				if(err)
+				console.log("dfssfuserdgdfgdf");
+				console.log(user);
+				if(err){
 					return done(err);
-				if(!user)
+				}
+				if(!user){
 					// 'No User found
 					return done(null, false);
+				}
 				if(!user.validPassword(password)){
 					// inavalid password
 					return done(null, false);

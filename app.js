@@ -20,24 +20,26 @@ require('./config/passport')(passport);
 var app = express();
 
 var index = require('./routes/index');
-// var eventInfo = require('./routes/events');
+var eventInfo = require('./routes/events');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(session({secret: 'qcE7Htpwdfg2apdMbJ4',
-         saveUninitialized: true,
-         resave: true}));
+app.use(cookieParser('qcE7Htpwdfg2apdMbJ4'));
+app.use(session({  saveUninitialized: true, // saved new sessions
+  resave: false, // do not automatically write to the session store
+  secret: 'qcE7Htpwdfg2apdMbJ4',
+  cookie : { httpOnly: true, maxAge: 2419200000 } // configure when sessions expires
+}));
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use(express.static(path.join(__dirname, 'public')));
 
 
 
@@ -46,8 +48,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', index);
 // app.use('/users', users);
 require('./routes/users')(app,passport);
-require('./routes/events')(app);
-// app.use('/api',eventInfo);
+// require('./routes/events')(app);
+app.use('/api',eventInfo);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/templates/index.html'));
 });

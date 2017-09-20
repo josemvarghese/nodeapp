@@ -1,7 +1,9 @@
  module.exports = function (req, res, next) {
-	if(req.isAuthenticated()){
+
+	console.log("req.session.id");
+	console.log(req.session.id);
+	if(req.session.id){
 		return next();
 	}
-
-	res.redirect('/index');
+	res.redirect('/login');
 };

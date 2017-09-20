@@ -9,9 +9,9 @@ module.exports = function(app,passport) {
 	    }
 	    // Generate a JSON response reflecting signup
 	    if (! user) {
-	      return res.send({ success : false, message : 'signupfailed' });
+	      return res.send({ result : 0, message : 'signupfailed' });
 	    }
-	    return res.send({ success : true, message : 'signup succeeded' });
+	    return res.send({ result : 1, message : 'signup succeeded' });
 	  })(req, res, next);
 	});
 	app.post('/api/signin',function(req, res, next) {
@@ -21,49 +21,56 @@ module.exports = function(app,passport) {
 	    }
 	    // Generate a JSON response reflecting signup
 	    if (! user) {
-	      return res.send({ success : false, message : 'signinfailed' });
+	      return res.send({ result : 0, message : 'signinfailed' });
 	    }
-	    return res.send({ success : true, message : 'signin succeeded' });
+	    else{
+	    	console.log("user");
+	    	console.log(user);
+	    	req.session.id = user._id;
+	    	console.log("req.session.id");
+	    	console.log(req.session.id);
+	    	console.log("user._id");
+	    	console.log(user._id);
+		    return res.send({ result : 1, message : 'signin succeeded' });
+		}
 	  })(req, res, next);
 	});
 
 	app.get('/api/logout',isLoggedIn, function(req, res){
+		req.session.id = null;
 		req.logout();
 		res.redirect('/');
 	})
 
-	app.get('/api/events',isLoggedIn,function(req,res,next) {
-            eventModel.find({}, function (err, data) {
-                res.json(data);
-            });
-        });
-	app.post('/api/addevent',isLoggedIn, function(req, res, next) {
-	    var newevent = new eventModel({
-	        name : req.body.eventName,
-	        description : req.body.eventDesc,
-	        createdBy : req.body.createdBy
-	    })
-	    newevent.save(function(err, data){
-	        if(err){ return next(err) }
-	        res.json(201, data)
-	    })
-	});
-	app.get('/api/events/:id',isLoggedIn,function(req,res,next) {
-		eventModel.findOne({_id:req.params.id}, function (err, data) {
-		    res.json(data);
-		});
-	});
+	// app.get('/api/events',isLoggedIn,function(req,res,next) {
+ //            eventModel.find({}, function (err, data) {
+ //                res.json(data);
+ //            });
+ //        });
+	// app.post('/api/addevent',isLoggedIn, function(req, res, next) {
+	//     var newevent = new eventModel({
+	//         name : req.body.eventName,
+	//         description : req.body.eventDesc,
+	//         createdBy : req.body.createdBy
+	//     })
+	//     newevent.save(function(err, data){
+	//         if(err){ return next(err) }
+	//         res.json(201, data)
+	//     })
+	// });
+	// app.get('/api/events/:id',isLoggedIn,function(req,res,next) {
+	// 	eventModel.findOne({_id:req.params.id}, function (err, data) {
+	// 	    res.json(data);
+	// 	});
+	// });
 
 }
 
 function isLoggedIn(req, res, next) {
-
-	console.log(req.user)
-	// if(req.user){
-	// 	console.log(req.user)
+	console.log(req.session.id);
+	if(req.session.id){
 		return next();
-	// }
-	// else{
-	// 	res.redirect('/login');
-	// }
+	}
+
+	res.redirect('/login');
 }

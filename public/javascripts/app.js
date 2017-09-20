@@ -25,6 +25,10 @@ nodeapp.config(['$routeProvider','$locationProvider',
         templateUrl: '../templates/login.html',
         controller: 'LoginController'
       }).
+      when('/events', {
+        templateUrl: '../templates/events.html',
+        controller: 'ListController'
+      }).
       otherwise({
         redirectTo: '/index'
       });
