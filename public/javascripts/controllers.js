@@ -29,20 +29,10 @@ app.controller('eventController',['$scope','$http','UserService','movie','NodeAp
 		    	console.log(response);
 
 		      // $scope.data = response.data;
-		      // if ($scope.data.result == 1) {
-		      //   //console.log("send mail");
-		      //   $scope.orgName = $scope.orgInfo.company_name;
-		      //   $scope.count = $scope.delegateCount;
-		      //   $scope.delegateCount='';
-		      //   $scope.orgInfo='';
-		      //   $scope.changeEvent('');
-		      //   $scope.submitted=false;
-		      //   $scope.includeAdspace=false;
-		      //   // $scope.captchaInvalid = true;
-		      //   $("#invite-popup").modal('show');
-		      //   $('#loading').hide();
-		      //   $('#container').fadeIn();
-		      // } else if ($scope.data.result == 0) {
+		      if (response.data.result == 1) {
+		        window.location="/events";
+		      } 
+		      // else if ($scope.data.result == 0) {
 		      //   //console.log("error");
 		      //   $scope.errormsg = true;
 		      //   $scope.showerror = response.data.message;
@@ -104,14 +94,23 @@ app.controller('ListController',['$scope','$http','UserService','GetDataService'
 	
 	$scope.getEvents = function() {
 		GetDataService.getEvents().then(function(res) {
-			console.log(res);
+			// console.log(res);
 	      if (res.result == 1) {
-	        // $scope.userOffset = res.uo;
+	      	console.log(res);
+	        $scope.eventList = res.data;
 	        // $scope.emailprf = res.preferences;
 	        // $scope.resetsetting();
 	      }
 	    });
 	};
 	$scope.getEvents();
+
+}]);
+// 
+app.controller('ChatController',['$scope','$http','UserService','GetDataService','NodeAppBaseUrl',function($scope,$http,UserService,GetDataService,NodeAppBaseUrl){
+	
+	$scope.sendMsg = function() {
+
+	};
 
 }]);

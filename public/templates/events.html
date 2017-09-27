@@ -1,4 +1,19 @@
-<div class="col-md-12" ng-controller="eventController">
-sdfasdfas
+<div class="col-md-12" ng-controller="ListController">
+
+
+		<div class="col-md-offset-10 col-md-2"><a href="/addevent"> <button class="btn btn danger">Add event</button></a></div>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<div class="container well" ng-repeat="evnt in eventList" >
+
+				<div ng-bind="evnt.name"></div>
+				<div class="container" ng-bind="evnt.description"></div>
+				<div ng-bind="evnt.createdBy"></div>
+				<div>Created By:  <span ng-bind="evnt.created|date"></span></div>
+
+		</div>
+
 
 </div>

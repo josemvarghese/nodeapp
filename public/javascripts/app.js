@@ -29,6 +29,10 @@ nodeapp.config(['$routeProvider','$locationProvider',
         templateUrl: '../templates/events.html',
         controller: 'ListController'
       }).
+      when('/chat', {
+        templateUrl: '../templates/chat.html',
+        controller: 'ChatController'
+      }).
       otherwise({
         redirectTo: '/index'
       });

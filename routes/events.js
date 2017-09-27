@@ -11,7 +11,7 @@ router.post('/addevent', function(req, res, next) {
     })
     newevent.save(function(err, data){
         if(err){ return next(err) }
-        res.json(201, data)
+        res.json({ result : 1, data : data })
     })
 });
 
